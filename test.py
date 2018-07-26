@@ -1,8 +1,18 @@
 import requests
 import json
 
+
+def get_number_of_transactions(data):
+    return len(data['data'])
+
+
+def write_data_to_file(data, filename):
+    with open(filename, 'w') as outfile:
+        json.dump(data, outfile)
+
+
 r = requests.get('https://venmo.com/api/v5/public')
+json_response = r.json()
+print('The number of transactions was %d' % get_number_of_transactions(json_response))
 
-
-with open('data.json', 'w') as outfile:
-    json.dump(r.json(), outfile)
+write_data_to_file(json_response, 'data.json')
